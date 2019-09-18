@@ -22,21 +22,32 @@ get the phone numbers of every employee from the map.
 Traditionally, you'd have to do something like:
 
 ```elixir
-company
-|> Enum.map(fn company -> Map.get(company, :managers) end)
-|> Enum.map(fn manager -> Map.get(manager, :employees) end)
-|> Enum.map(fn employee -> Map.get(employee, :phone_numbers) end)
-|> List.flatten()
+phone_numbers =
+  company
+  |> Enum.map(fn company -> Map.get(company, :managers) end)
+  |> Enum.map(fn manager -> Map.get(manager, :employees) end)
+  |> Enum.map(fn employee -> Map.get(employee, :phone_numbers) end)
+  |> List.flatten()
 ```
 
 What happens if any step in that chain returns `nil`, or a value you're not
-expecting? On a project I work on, we have to grab everything from 6-7 levels
+expecting? What if there is a deeply-nested list somewhere in the structure, or
+for some reason, the structs don't match. What happens when one manager has a
+single employee that is not in a list, while all of the other managers have
+lists of employees?
+
+On a project I work on, we have to grab everything from 6-7 levels
 deep, in lists of maps with lists of maps, and it quickly gets complex handling
 potential edge cases at each level. Something like XPath for Maps/Structs would
 be great, so you could call `"//Company/Manager/Employee/PhoneNumber"` on the
 arbitrary structure and get all elements that matched every part of the key.
 
-That's what I've attempted to do with `DeepGet`.
+That's what I've attempted to do with `DeepGet`. 
+
+```elixir
+phone_numbers =
+  DeepGet.deep_get(company, [:managers, :employees, :phone_numbers])
+```
 
 ## Examples
 
