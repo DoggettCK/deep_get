@@ -1,16 +1,38 @@
 defmodule DeepGet do
   @moduledoc """
-  Documentation for DeepGet.
+  `DeepGet` allows you to take an object (map/struct/keyword list/list) or list
+  of them, nested to an arbitrary level, and extract the values corresponding
+  to a list of keys.
   """
 
+  @doc """
+  Fetches a list of all objects under a struct/map/keyword list/list matching
+  the list of keys provided.
+
+  If `object` is a list, it will retain the key at the level it is currently
+  working on, and check all map-like/keyable objects in the list for the next
+  key.
+
+  The end result is a flattened list of values for every item in the
+  deeply-nested structure that matched the full key path.
+
+  ## Examples
+      iex> %{ids: [%{id: 1}, %{id: 2}]} |> DeepGet.deep_get([:ids, :id])
+      [1, 2]
+
+      iex> [%{name: %{first: "Alice"}}, %{name: %{first: "Bob"}}] |> DeepGet.deep_get([:name, :first])
+      ["Alice", "Bob"]
+  """
   def deep_get(nil, _path), do: []
   def deep_get(_object, []), do: []
+
   def deep_get(object, path) when is_list(path) do
     object
     |> do_deep_get(path, [])
     |> List.flatten()
     |> Enum.reverse()
   end
+
   def deep_get(object, path) do
     # Wrap a single key in a list and call the public function
     deep_get(object, [path])

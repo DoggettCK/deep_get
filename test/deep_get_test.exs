@@ -7,11 +7,11 @@ defmodule DeepGetTest do
       assert DeepGet.deep_get(nil, [:some, :path]) == []
     end
 
-    test "object with empty path returns an empty list" do
-      assert DeepGet.deep_get(%{some: [%{path: 1}, %{path: 2}]}, []) == []
+    test "object with nil path returns an empty list" do
+      assert DeepGet.deep_get(%{some: [%{path: 1}, %{path: 2}]}, nil) == []
     end
 
-    test "object with non-list returns an empty list" do
+    test "object with empty path returns an empty list" do
       assert DeepGet.deep_get(%{some: [%{path: 1}, %{path: 2}]}, []) == []
     end
 
@@ -68,7 +68,8 @@ defmodule DeepGetTest do
         # List with multiple nested maps, maps without starting key, strings, etc...
         %{
           a: %{
-            b: [ # List with multiple nested maps
+            # List with multiple nested maps
+            b: [
               %{c: "value 1"},
               %{c: "value 2"}
             ]
@@ -80,7 +81,8 @@ defmodule DeepGetTest do
         %{
           a: %{
             b: %{
-              c: nil # Different structure (b is not a list), doesn't ignore nil leaf values
+              # Different structure (b is not a list), doesn't ignore nil leaf values
+              c: nil
             }
           }
         },
@@ -91,11 +93,13 @@ defmodule DeepGetTest do
             },
             %{
               b: [
-                %{c: "value 3"} # List with nested map
+                # List with nested map
+                %{c: "value 3"}
               ]
             },
             %{
-              b: [c: "value 4"] # Keyword list
+              # Keyword list
+              b: [c: "value 4"]
             }
           ]
         },
@@ -110,7 +114,7 @@ defmodule DeepGetTest do
       ]
 
       assert DeepGet.deep_get(list, [:a, :b, :c]) ==
-        ["value 1", "value 2", nil, "value 3", "value 4", "value 5", "value 6", "value 7"]
+               ["value 1", "value 2", nil, "value 3", "value 4", "value 5", "value 6", "value 7"]
     end
   end
 end
