@@ -23,12 +23,16 @@ defmodule DeepGetTest do
       assert DeepGet.deep_get(%{some: %{path: "value"}}, :some) == [%{path: "value"}]
     end
 
-    test "does not get values from a map given a key that starts nested deeper" do
-      assert DeepGet.deep_get(%{some: %{path: "value"}}, :path) == []
+    test "gets values from a map given a string key" do
+      assert DeepGet.deep_get(%{"some" => %{"path" => "value"}}, "some") == [%{"path" => "value"}]
     end
 
     test "gets values from a map given a list of keys" do
       assert DeepGet.deep_get(%{some: %{path: "value"}}, [:some]) == [%{path: "value"}]
+    end
+
+    test "does not get values from a map given a key that starts nested deeper" do
+      assert DeepGet.deep_get(%{some: %{path: "value"}}, :path) == []
     end
 
     test "maps a list instead of consuming the next key" do

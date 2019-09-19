@@ -24,20 +24,18 @@ defmodule DeepGet do
       ["Alice", "Bob"]
   """
   def deep_get(nil, _path), do: []
+  def deep_get(_object, nil), do: []
   def deep_get(_object, []), do: []
 
-  def deep_get(object, path) when is_list(path) do
+  def deep_get(object, path) do
     object
-    |> do_deep_get(path, [])
+    |> do_deep_get(List.wrap(path), [])
     |> List.flatten()
     |> Enum.reverse()
   end
 
-  def deep_get(object, path) do
-    # Wrap a single key in a list and call the public function
-    deep_get(object, [path])
-  end
-
+  # TODO: Would it be useful if part of the path were an index?
+  # Example: deep_get(object, [:people, :phone_numbers, [0]])?
   defp do_deep_get([], _path, results) do
     # No need to add an empty list to a list that's going to get flattened
     results

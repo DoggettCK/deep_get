@@ -63,6 +63,10 @@ iex> DeepGet.deep_get(people, [:name, :first])
 ["Alice", "Bob", "Carol", "Dan"]
 ```
 
+Anything that can be used as a key will make a valid path. Examples use atoms,
+but strings, ints, tuples, etc... will work, as long as you can call `Map.get`
+or `Keyword.get` on your structure to fetch the value with that key.
+
 What if your structure is very complex, with different data types that may have
 all the keys, or no keys at all?
 
