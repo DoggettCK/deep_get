@@ -122,8 +122,8 @@ iex> DeepGet.deep_get(list, [:a, :b, :c])
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `deep_get` to your list of dependencies in `mix.exs`:
+`DeepGet` can be installed by adding `deep_get` to your list of dependencies in
+`mix.exs`:
 
 ```elixir
 def deps do
