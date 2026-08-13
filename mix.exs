@@ -4,9 +4,8 @@ defmodule DeepGet.MixProject do
   def project do
     [
       app: :deep_get,
-      version: "0.1.0",
+      version: "0.1.1",
       elixir: "~> 1.0",
-      start_permanent: Mix.env() == :prod,
       elixirc_paths: elixirc_paths(Mix.env()),
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
@@ -29,9 +28,9 @@ defmodule DeepGet.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:credo, "~> 0.10.0", only: [:dev, :test], runtime: false},
-      {:ex_doc, "~> 0.20", only: :dev},
-      {:mix_test_watch, "~> 0.5", only: :dev, runtime: false}
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
+      {:ex_doc, "~> 0.34", only: :dev},
+      {:mix_test_watch, "~> 1.2", only: :dev, runtime: false}
     ]
   end
 

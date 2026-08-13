@@ -23,6 +23,7 @@ defmodule DeepGet do
       iex> [%{name: %{first: "Alice"}}, %{name: %{first: "Bob"}}] |> DeepGet.deep_get([:name, :first])
       ["Alice", "Bob"]
   """
+  @spec deep_get(object :: term, path :: term | [term]) :: list
   def deep_get(nil, _path), do: []
   def deep_get(_object, nil), do: []
   def deep_get(_object, []), do: []
@@ -34,8 +35,6 @@ defmodule DeepGet do
     |> Enum.reverse()
   end
 
-  # TODO: Would it be useful if part of the path were an index?
-  # Example: deep_get(object, [:people, :phone_numbers, [0]])?
   defp do_deep_get([], _path, results) do
     # No need to add an empty list to a list that's going to get flattened
     results
